@@ -9,7 +9,6 @@ export default function Time() {
   const getCurrentTime = () => {
     setInterval(() => {
       setTime(moment().format("LT"));
-      console.log("Time:", time);
     }, 60000);
   };
 

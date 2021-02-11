@@ -13,7 +13,7 @@ import {
   MenuDivider,
   Heading,
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import React from "react";
 import Time from "../time/Time";
 
@@ -36,7 +36,7 @@ export default function Navbar() {
       <Box>
         <Menu>
           <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-            Actions
+            <HamburgerIcon />
           </MenuButton>
           <MenuList>
             <MenuItem>Download</MenuItem>

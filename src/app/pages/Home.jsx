@@ -8,11 +8,11 @@ export default function Home() {
   return (
     <Box>
       <Navbar />
-      <Box width="100%" display="flex" justifyContent="center" marginTop="20px">
-        <Calendar />
-      </Box>
       <Box w="100%" display="flex" justifyContent="center">
         <Schedule />
+      </Box>
+      <Box width="100%" display="flex" justifyContent="center" marginTop="20px">
+        <Calendar />
       </Box>
     </Box>
   );
