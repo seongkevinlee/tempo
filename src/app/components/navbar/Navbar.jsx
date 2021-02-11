@@ -11,13 +11,28 @@ import {
   MenuIcon,
   MenuCommand,
   MenuDivider,
+  Heading,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import React from "react";
+import Time from "../time/Time";
 
 export default function Navbar() {
   return (
-    <Box w="100%" bgColor="rebeccapurple" p="5" zIndex="100">
+    <Box
+      w="100%"
+      bgColor="rebeccapurple"
+      p="5"
+      display="flex"
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      <Box>
+        <Time />
+      </Box>
+      <Box>
+        <Heading color="teal.400">Tempo</Heading>
+      </Box>
       <Box>
         <Menu>
           <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
