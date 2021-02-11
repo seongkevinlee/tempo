@@ -11,7 +11,9 @@ export default function Home() {
       <Box width="100%" display="flex" justifyContent="center" marginTop="20px">
         <Calendar />
       </Box>
-      <Schedule />
+      <Box w="100%" display="flex" justifyContent="center">
+        <Schedule />
+      </Box>
     </Box>
   );
 }
