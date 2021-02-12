@@ -13,11 +13,11 @@ import {
   MenuDivider,
   Heading,
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import React from "react";
 import Time from "../time/Time";
 
-export default function Navbar() {
+export default function Navbar({ logOut }) {
   return (
     <Box
       w="100%"
@@ -36,14 +36,14 @@ export default function Navbar() {
       <Box>
         <Menu>
           <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-            Actions
+            <HamburgerIcon />
           </MenuButton>
           <MenuList>
             <MenuItem>Download</MenuItem>
             <MenuItem>Create a Copy</MenuItem>
             <MenuItem>Mark as Draft</MenuItem>
             <MenuItem>Delete</MenuItem>
-            <MenuItem>Attend a Workshop</MenuItem>
+            <MenuItem onClick={logOut}>Logout</MenuItem>
           </MenuList>
         </Menu>
       </Box>
