@@ -25,7 +25,6 @@ function App() {
       .set({
         uid: user.uid,
         email: user.email,
-        name: user.name,
       })
       .catch((err) => console.error(err));
   };
