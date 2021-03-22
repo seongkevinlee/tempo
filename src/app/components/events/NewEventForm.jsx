@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -14,7 +14,10 @@ import {
   Select,
   NumberInput,
   NumberInputField,
+  Textarea,
 } from "@chakra-ui/react";
+
+import moment from "moment";
 
 export default function NewEventForm({
   isOpen,
@@ -23,16 +26,32 @@ export default function NewEventForm({
   selectedDay,
   setStartTime,
   setEndTime,
-  startTime,
-  endTime,
+  //   startTime,
+  //   endTime,
 }) {
-  const parse = (val) => val.replace(/^\$/, "");
+  const [sAMPM, setSAMPM] = useState();
+
+  let [value, setValue] = useState("");
+
+  let handleInputChange = (e) => {
+    let inputValue = e.target.value;
+    setValue(inputValue);
+  };
+
+  const [eventInfo, setEventInfo] = useState({
+    startTime: parseInt(moment().format("hmm")),
+    endTime: parseInt(moment().add(1, "hour").format("hmm")),
+    startAMPM: moment().format("A"),
+    endAMPM: moment().format("A"),
+  });
+
+  const parse = (val) => val.replace(/^(0?[1-9]|1[0-2]):[0-5][0-9]$/, "");
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader></ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Text>Event Name:</Text>
@@ -47,7 +66,9 @@ export default function NewEventForm({
                 <Box display="flex" alignItems="center">
                   <NumberInput
                     onChange={(e) => setStartTime(parse(e))}
-                    defaultValue={11}
+                    defaultValue={eventInfo.startTime}
+                    max={1259}
+                    min={1}
                   >
                     <NumberInputField />
                   </NumberInput>
@@ -62,7 +83,9 @@ export default function NewEventForm({
                 <Box display="flex" alignItems="center">
                   <NumberInput
                     onChange={(e) => setEndTime(parse(e))}
-                    defaultValue={11}
+                    defaultValue={eventInfo.endTime}
+                    max={1259}
+                    min={1}
                   >
                     <NumberInputField />
                   </NumberInput>
@@ -73,13 +96,19 @@ export default function NewEventForm({
                 </Box>
               </Box>
             </Box>
+            <Box>
+              <Text mt="4" mb="8px">
+                Notes:
+              </Text>
+              <Textarea value={value} onChange={handleInputChange} size="sm" />
+            </Box>
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+              Create
             </Button>
-            <Button variant="ghost">Secondary Action</Button>
+            <Button variant="ghost">Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

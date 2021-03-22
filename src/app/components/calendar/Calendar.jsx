@@ -19,8 +19,10 @@ export default function Calendar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [eventTitle, setEventTitle] = useState(null);
-  const [startTime, setStartTime] = useState(moment().format("LT"));
-  const [endTime, setEndTime] = useState(moment().add(1, "hour").format("LT"));
+  const [startTime, setStartTime] = useState(moment().format("h:mm"));
+  const [endTime, setEndTime] = useState(
+    moment().add(1, "hour").format("h:mm")
+  );
 
   return (
     <Box
@@ -44,13 +46,14 @@ export default function Calendar() {
       {/* <Button onClick={() => console.log(selectedDay)} mt="4">
         Add Event
       </Button> */}
-      {/* <Text>{eventTitle}</Text> */}
+      {/* <Text>{startTime}</Text> */}
       {/* <Text>{selectedDay}</Text> */}
 
       <NewEventForm
         isOpen={isOpen}
         onClose={onClose}
         selectedDay={selectedDay}
+        eventTitle={eventTitle}
         setEventTitle={setEventTitle}
         startTime={startTime}
         endTime={endTime}
