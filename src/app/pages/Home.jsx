@@ -9,10 +9,7 @@ export default function Home({ currentUser, logOut }) {
     <Box>
       <Navbar logOut={logOut} />
       <Box w="100%" display="flex" justifyContent="center">
-        <Schedule />
-      </Box>
-      <Box width="100%" display="flex" justifyContent="center" marginTop="20px">
-        <Calendar currentUser={currentUser} />
+        <Schedule currentUser={currentUser} />
       </Box>
     </Box>
   );

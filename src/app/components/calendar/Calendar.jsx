@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar as Cal } from "react-modern-calendar-datepicker";
 import { Box, Button, Text, useDisclosure } from "@chakra-ui/react";
@@ -7,15 +7,9 @@ import moment from "moment";
 
 import "./calendar.css";
 import NewEventForm from "../events/NewEventForm";
+import NewEventNotes from "../events/NewEventNotes";
 
-export default function Calendar({ currentUser }) {
-  const today = {
-    year: parseInt(moment().format("YYYY")),
-    month: parseInt(moment().format("M")),
-    day: parseInt(moment().format("D")),
-  };
-
-  const [selectedDay, setSelectedDay] = useState(today);
+export default function Calendar({ currentUser, selectedDay, setSelectedDay }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -43,7 +37,13 @@ export default function Calendar({ currentUser }) {
       {/* <Text>{startTime}</Text> */}
       {/* <Text>{selectedDay}</Text> */}
 
-      <NewEventForm
+      {/* <NewEventForm
+        isOpen={isOpen}
+        onClose={onClose}
+        selectedDay={selectedDay}
+        currentUser={currentUser}
+      /> */}
+      <NewEventNotes
         isOpen={isOpen}
         onClose={onClose}
         selectedDay={selectedDay}
