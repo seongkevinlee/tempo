@@ -19,6 +19,7 @@ import {
 
 import moment from "moment";
 import firebase from "../../../firebase";
+import { v4 as uuid } from "uuid";
 
 export default function NewEventForm({
   currentUser,
@@ -30,18 +31,22 @@ export default function NewEventForm({
   //   endTime,
 }) {
   const [eventTitle, setEventTitle] = useState(null);
-  const [startTime, setStartTime] = useState(moment().format("hmm"));
-  const [endTime, setEndTime] = useState(moment().add(1, "hour").format("hmm"));
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+
+  const clearFields = () => {
+    setEventTitle(null);
+    setStartTime(null);
+    setEndTime(null);
+    setSAMPM(moment().format("A"));
+    setEAMPM(moment().format("A"));
+    setNotes("");
+  };
 
   const [sAMPM, setSAMPM] = useState(moment().format("A"));
   const [eAMPM, setEAMPM] = useState(moment().format("A"));
 
-  let [value, setValue] = useState("");
-
-  let handleInputChange = (e) => {
-    let inputValue = e.target.value;
-    setValue(inputValue);
-  };
+  const [notes, setNotes] = useState("");
 
   // const [eventInfo, setEventInfo] = useState({
   //   startTime: parseInt(moment().format("hmm")),
@@ -53,12 +58,24 @@ export default function NewEventForm({
   const parse = (val) => val.replace(/^(0?[1-9]|1[0-2]):[0-5][0-9]$/, "");
 
   const createEvent = () => {
-    firebase.firestore().collection("events").doc(currentUser.uid).set({
-      eventTitle,
-      date: selectedDay,
-      startTime,
-      endTime,
-    });
+    firebase
+      .firestore()
+      .collection("events")
+      .doc(uuid())
+      .set({
+        uid: currentUser.uid,
+        eventTitle,
+        date: `${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`,
+        startTime: String(moment(`${startTime}${sAMPM}`, "hmmA").format("LT")),
+        endTime: String(moment(`${endTime}${eAMPM}`, "hmmA").format("LT")),
+        notes,
+      })
+      .then(() => {
+        clearFields();
+        onClose();
+      });
+    console.log("startTime:", startTime);
+    console.log("endTime:", endTime);
   };
 
   return (
@@ -122,7 +139,11 @@ export default function NewEventForm({
               <Text mt="4" mb="8px">
                 Notes:
               </Text>
-              <Textarea value={value} onChange={handleInputChange} size="sm" />
+              <Textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                size="sm"
+              />
             </Box>
           </ModalBody>
 
@@ -132,8 +153,8 @@ export default function NewEventForm({
             </Button>
             <Button
               variant="ghost"
-              // onClick={onClose}
-              onClick={() => console.log("sAMPM:", sAMPM)}
+              onClick={onClose}
+              // onClick={() => console.log("sAMPM:", sAMPM)}
             >
               Cancel
             </Button>
