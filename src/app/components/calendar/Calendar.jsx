@@ -8,7 +8,7 @@ import moment from "moment";
 import "./calendar.css";
 import NewEventForm from "../events/NewEventForm";
 
-export default function Calendar() {
+export default function Calendar({ currentUser }) {
   const today = {
     year: parseInt(moment().format("YYYY")),
     month: parseInt(moment().format("M")),
@@ -17,12 +17,6 @@ export default function Calendar() {
 
   const [selectedDay, setSelectedDay] = useState(today);
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [eventTitle, setEventTitle] = useState(null);
-  const [startTime, setStartTime] = useState(moment().format("h:mm"));
-  const [endTime, setEndTime] = useState(
-    moment().add(1, "hour").format("h:mm")
-  );
 
   return (
     <Box
@@ -53,12 +47,7 @@ export default function Calendar() {
         isOpen={isOpen}
         onClose={onClose}
         selectedDay={selectedDay}
-        eventTitle={eventTitle}
-        setEventTitle={setEventTitle}
-        startTime={startTime}
-        endTime={endTime}
-        setStartTime={setStartTime}
-        setEndTime={setEndTime}
+        currentUser={currentUser}
       />
     </Box>
   );

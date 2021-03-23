@@ -12,7 +12,7 @@ export default function Home({ currentUser, logOut }) {
         <Schedule />
       </Box>
       <Box width="100%" display="flex" justifyContent="center" marginTop="20px">
-        <Calendar />
+        <Calendar currentUser={currentUser} />
       </Box>
     </Box>
   );

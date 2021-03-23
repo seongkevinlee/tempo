@@ -18,18 +18,23 @@ import {
 } from "@chakra-ui/react";
 
 import moment from "moment";
+import firebase from "../../../firebase";
 
 export default function NewEventForm({
+  currentUser,
   isOpen,
   onClose,
-  setEventTitle,
   selectedDay,
-  setStartTime,
-  setEndTime,
+
   //   startTime,
   //   endTime,
 }) {
-  const [sAMPM, setSAMPM] = useState();
+  const [eventTitle, setEventTitle] = useState(null);
+  const [startTime, setStartTime] = useState(moment().format("hmm"));
+  const [endTime, setEndTime] = useState(moment().add(1, "hour").format("hmm"));
+
+  const [sAMPM, setSAMPM] = useState(moment().format("A"));
+  const [eAMPM, setEAMPM] = useState(moment().format("A"));
 
   let [value, setValue] = useState("");
 
@@ -38,14 +43,24 @@ export default function NewEventForm({
     setValue(inputValue);
   };
 
-  const [eventInfo, setEventInfo] = useState({
-    startTime: parseInt(moment().format("hmm")),
-    endTime: parseInt(moment().add(1, "hour").format("hmm")),
-    startAMPM: moment().format("A"),
-    endAMPM: moment().format("A"),
-  });
+  // const [eventInfo, setEventInfo] = useState({
+  //   startTime: parseInt(moment().format("hmm")),
+  //   endTime: parseInt(moment().add(1, "hour").format("hmm")),
+  //   startAMPM: moment().format("A"),
+  //   endAMPM: moment().format("A"),
+  // });
 
   const parse = (val) => val.replace(/^(0?[1-9]|1[0-2]):[0-5][0-9]$/, "");
+
+  const createEvent = () => {
+    firebase.firestore().collection("events").doc(currentUser.uid).set({
+      eventTitle,
+      date: selectedDay,
+      startTime,
+      endTime,
+    });
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -58,6 +73,7 @@ export default function NewEventForm({
             <Input onChange={(e) => setEventTitle(e.target.value)} />
             <Text mt="4">Date:</Text>
             <Input
+              readOnly
               value={`${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`}
             />
             <Box mt="4" display="flex" justifyContent="space-between">
@@ -66,13 +82,16 @@ export default function NewEventForm({
                 <Box display="flex" alignItems="center">
                   <NumberInput
                     onChange={(e) => setStartTime(parse(e))}
-                    defaultValue={eventInfo.startTime}
+                    defaultValue={startTime}
                     max={1259}
                     min={1}
                   >
                     <NumberInputField />
                   </NumberInput>
-                  <Select>
+                  <Select
+                    value={sAMPM}
+                    onChange={(e) => setSAMPM(e.target.value)}
+                  >
                     <option value="AM">AM</option>
                     <option value="PM">PM</option>
                   </Select>
@@ -83,13 +102,16 @@ export default function NewEventForm({
                 <Box display="flex" alignItems="center">
                   <NumberInput
                     onChange={(e) => setEndTime(parse(e))}
-                    defaultValue={eventInfo.endTime}
+                    defaultValue={endTime}
                     max={1259}
                     min={1}
                   >
                     <NumberInputField />
                   </NumberInput>
-                  <Select>
+                  <Select
+                    value={eAMPM}
+                    onChange={(e) => setEAMPM(e.target.value)}
+                  >
                     <option value="AM">AM</option>
                     <option value="PM">PM</option>
                   </Select>
@@ -105,10 +127,16 @@ export default function NewEventForm({
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button colorScheme="blue" mr={3} onClick={createEvent}>
               Create
             </Button>
-            <Button variant="ghost">Cancel</Button>
+            <Button
+              variant="ghost"
+              // onClick={onClose}
+              onClick={() => console.log("sAMPM:", sAMPM)}
+            >
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

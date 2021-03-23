@@ -20,8 +20,8 @@ export default function Schedule() {
     >
       <Heading bgColor="whiteAlpha.200">Schedule</Heading>
       <Box>
-        <Text>Date: {moment().format("L")}</Text>
-        <Text>Time: {moment().format("LT")}</Text>
+        <Text textAlign="center">Date: {moment().format("L")}</Text>
+        <Text textAlign="center">Time: {moment().format("LT")}</Text>
       </Box>
     </Box>
   );
