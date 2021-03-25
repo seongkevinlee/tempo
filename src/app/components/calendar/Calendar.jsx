@@ -1,6 +1,6 @@
 import React from "react";
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { Calendar as Cal } from "react-modern-calendar-datepicker";
+import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
+import { Calendar as Cal } from "@hassanmojab/react-modern-calendar-datepicker";
 import { Box, Button, Text, useDisclosure } from "@chakra-ui/react";
 
 import moment from "moment";
