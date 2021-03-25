@@ -9,7 +9,13 @@ import "./calendar.css";
 import NewEventForm from "../events/NewEventForm";
 import NewEventNotes from "../events/NewEventNotes";
 
-export default function Calendar({ currentUser, selectedDay, setSelectedDay }) {
+export default function Calendar({
+  currentUser,
+  selectedDay,
+  setSelectedDay,
+  notes,
+  setNotes,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -48,6 +54,8 @@ export default function Calendar({ currentUser, selectedDay, setSelectedDay }) {
         onClose={onClose}
         selectedDay={selectedDay}
         currentUser={currentUser}
+        notes={notes}
+        setNotes={setNotes}
       />
     </Box>
   );

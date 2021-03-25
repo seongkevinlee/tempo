@@ -26,12 +26,12 @@ export default function NewEventNotes({
   isOpen,
   onClose,
   selectedDay,
+  notes,
+  setNotes,
 }) {
   const clearFields = () => {
     setNotes("");
   };
-
-  const [notes, setNotes] = useState("");
 
   const createEvent = () => {
     firebase

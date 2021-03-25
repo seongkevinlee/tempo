@@ -18,8 +18,10 @@ export default function Schedule({ currentUser }) {
   };
 
   const [selectedDay, setSelectedDay] = useState(today);
+  const [notes, setNotes] = useState("");
 
   const showEvents = () => {
+    setCurrentDateEvents();
     let events = [];
     eventsCollection
       .where("uid", "==", currentUser.uid)
@@ -35,15 +37,14 @@ export default function Schedule({ currentUser }) {
         });
       })
       .then(() => {
-        setCurrentDateEvents(events);
-        console.log(events);
+        if (events.length > 0) setCurrentDateEvents(events[0].notes);
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     showEvents();
-  }, [selectedDay]);
+  }, [selectedDay, notes]);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -61,12 +62,28 @@ export default function Schedule({ currentUser }) {
         borderRadius="7px"
       >
         <Heading bgColor="whiteAlpha.200">{`${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`}</Heading>
+        <Box
+          display="flex"
+          alignItems="flex-start"
+          justifyContent="flex-start"
+          w="100%"
+          px="5"
+          pt="3"
+        >
+          <ul>
+            {currentDateEvents?.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </Box>
       </Box>
       <Box width="100%" display="flex" justifyContent="center" marginTop="20px">
         <Calendar
           currentUser={currentUser}
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
+          notes={notes}
+          setNotes={setNotes}
         />
       </Box>
     </Box>
