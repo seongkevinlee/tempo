@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Heading, Text } from "@chakra-ui/react";
 
+import firebase from "../../../firebase";
 import moment from "moment";
+
 import Calendar from "../calendar/Calendar";
 
+const eventsCollection = firebase.firestore().collection("events");
+
 export default function Schedule({ currentUser }) {
+  const [currentDateEvents, setCurrentDateEvents] = useState([]);
+
   const today = {
     year: parseInt(moment().format("YYYY")),
     month: parseInt(moment().format("M")),
@@ -12,6 +18,32 @@ export default function Schedule({ currentUser }) {
   };
 
   const [selectedDay, setSelectedDay] = useState(today);
+
+  const showEvents = () => {
+    let events = [];
+    eventsCollection
+      .where("uid", "==", currentUser.uid)
+      .where(
+        "date",
+        "==",
+        `${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`
+      )
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          events.push(doc.data());
+        });
+      })
+      .then(() => {
+        setCurrentDateEvents(events);
+        console.log(events);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    showEvents();
+  }, [selectedDay]);
 
   return (
     <Box display="flex" flexDirection="column">

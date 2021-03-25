@@ -37,7 +37,9 @@ export default function NewEventNotes({
     firebase
       .firestore()
       .collection("events")
-      .doc(uuid())
+      .doc(
+        `${currentUser.uid}.${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`
+      )
       .set(
         {
           uid: currentUser.uid,
