@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  IconButton,
+  ListItem,
+  Text,
+  UnorderedList,
+} from "@chakra-ui/react";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 
 import firebase from "../../../firebase";
 import moment from "moment";
@@ -70,11 +78,33 @@ export default function Schedule({ currentUser }) {
           px="5"
           pt="3"
         >
-          <ul>
+          <UnorderedList w="100%">
             {currentDateEvents?.map((item, index) => (
-              <li key={index}>{item}</li>
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                w="100%"
+                // backgroundColor="white"
+              >
+                <ListItem w="100%" mr="5" key={index}>
+                  {item}
+                </ListItem>
+                <IconButton
+                  backgroundColor="gray.200"
+                  size="xs"
+                  icon={<EditIcon />}
+                  px="1"
+                />
+                <IconButton
+                  backgroundColor="gray.200"
+                  size="xs"
+                  icon={<DeleteIcon />}
+                  px="1"
+                />
+              </Box>
             ))}
-          </ul>
+          </UnorderedList>
         </Box>
       </Box>
       <Box width="100%" display="flex" justifyContent="center" marginTop="20px">

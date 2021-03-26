@@ -35,7 +35,7 @@ export default function Calendar({
         calendarTodayClassName="custom-today-day" // also this
       />
       <Button onClick={onOpen} mt="4">
-        Add Event
+        Add Entry
       </Button>
       {/* <Button onClick={() => console.log(selectedDay)} mt="4">
         Add Event
