@@ -6,6 +6,7 @@ import {
   ListItem,
   Text,
   UnorderedList,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 
@@ -13,11 +14,14 @@ import firebase from "../../../firebase";
 import moment from "moment";
 
 import Calendar from "../calendar/Calendar";
+import EditEvent from "../events/EditEvent";
 
 const eventsCollection = firebase.firestore().collection("events");
 
 export default function Schedule({ currentUser }) {
   const [currentDateEvents, setCurrentDateEvents] = useState([]);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const today = {
     year: parseInt(moment().format("YYYY")),
@@ -27,6 +31,8 @@ export default function Schedule({ currentUser }) {
 
   const [selectedDay, setSelectedDay] = useState(today);
   const [notes, setNotes] = useState("");
+
+  const [existingNotes, setExistingNotes] = useState(null);
 
   const showEvents = () => {
     setCurrentDateEvents();
@@ -45,7 +51,10 @@ export default function Schedule({ currentUser }) {
         });
       })
       .then(() => {
-        if (events.length > 0) setCurrentDateEvents(events[0].notes);
+        if (events.length > 0) {
+          setCurrentDateEvents(events);
+          setExistingNotes(events[0].notes);
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -69,7 +78,12 @@ export default function Schedule({ currentUser }) {
         alignItems="center"
         borderRadius="7px"
       >
-        <Heading bgColor="whiteAlpha.200">{`${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`}</Heading>
+        <Heading
+          onClick={() =>
+            console.log("currentDateEvents:", currentDateEvents[0].notes)
+          }
+          bgColor="whiteAlpha.200"
+        >{`${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`}</Heading>
         <Box
           display="flex"
           alignItems="flex-start"
@@ -79,31 +93,41 @@ export default function Schedule({ currentUser }) {
           pt="3"
         >
           <UnorderedList w="100%">
-            {currentDateEvents?.map((item, index) => (
-              <Box
-                display="flex"
-                flexDirection="row"
-                justifyContent="space-between"
-                w="100%"
-                // backgroundColor="white"
-              >
-                <ListItem w="100%" mr="5" key={index}>
-                  {item}
-                </ListItem>
-                <IconButton
-                  backgroundColor="gray.200"
-                  size="xs"
-                  icon={<EditIcon />}
-                  px="1"
-                />
-                <IconButton
-                  backgroundColor="gray.200"
-                  size="xs"
-                  icon={<DeleteIcon />}
-                  px="1"
-                />
-              </Box>
-            ))}
+            {currentDateEvents &&
+              currentDateEvents[0]?.notes.map((item, index) => (
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="space-between"
+                  w="100%"
+                  // backgroundColor="white"
+                >
+                  <ListItem w="100%" mr="5" key={index}>
+                    {item}
+                  </ListItem>
+                  <IconButton
+                    backgroundColor="gray.200"
+                    size="xs"
+                    icon={<EditIcon />}
+                    px="1"
+                    onClick={onOpen}
+                  />
+                  <IconButton
+                    backgroundColor="gray.200"
+                    size="xs"
+                    icon={<DeleteIcon />}
+                    px="1"
+                    onClick={() => console.log("item:", item)}
+                  />
+                  <EditEvent
+                    isOpen={isOpen}
+                    onClose={onClose}
+                    notes={item}
+                    selectedDay={item.date}
+                    currentUser={currentUser}
+                  />
+                </Box>
+              ))}
           </UnorderedList>
         </Box>
       </Box>
