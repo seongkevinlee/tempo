@@ -28,6 +28,7 @@ export default function EditEvent({
   selectedDay,
   currentUser,
   setNotes,
+  showEvents,
 }) {
   const [noteToEdit, setNoteToEdit] = useState(notes);
 
@@ -51,6 +52,7 @@ export default function EditEvent({
         { merge: true }
       )
       .then(() => {
+        showEvents();
         clearFields();
         onClose();
       });

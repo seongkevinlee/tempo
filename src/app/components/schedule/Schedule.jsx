@@ -59,11 +59,17 @@ export default function Schedule({ currentUser }) {
       .catch((err) => console.log(err));
   };
 
-  const deleteItem = (note) => {
+  const deleteItem = (note, id) => {
     console.log("note:", note);
-    eventsCollection.doc(id).update({
-      ["notes." + note]: firebase.firestore.FieldValue.delete(),
-    });
+    eventsCollection
+      .doc(id)
+      .update({
+        notes: firebase.firestore.FieldValue.arrayRemove(note),
+      })
+      .then(() => {
+        showEvents();
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -101,7 +107,7 @@ export default function Schedule({ currentUser }) {
         >
           <UnorderedList w="100%">
             {currentDateEvents &&
-              currentDateEvents[0]?.notes.map((item, index) => (
+              currentDateEvents[0]?.notes?.map((item, index) => (
                 <Box
                   display="flex"
                   flexDirection="row"
@@ -124,7 +130,13 @@ export default function Schedule({ currentUser }) {
                     size="xs"
                     icon={<DeleteIcon />}
                     px="1"
-                    onClick={() => deleteItem(item)}
+                    onClick={() =>
+                      deleteItem(
+                        item,
+                        currentDateEvents[0].eventId,
+                        currentDateEvents[0].notes.indexOf(item)
+                      )
+                    }
                   />
                   <EditEvent
                     isOpen={isOpen}
@@ -132,6 +144,7 @@ export default function Schedule({ currentUser }) {
                     notes={item}
                     selectedDay={item.date}
                     currentUser={currentUser}
+                    showEvents={showEvents}
                   />
                 </Box>
               ))}
