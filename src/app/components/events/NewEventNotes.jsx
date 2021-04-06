@@ -42,6 +42,7 @@ export default function NewEventNotes({
       )
       .set(
         {
+          eventId: `${currentUser.uid}.${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`,
           uid: currentUser.uid,
           date: `${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`,
           notes: firebase.firestore.FieldValue.arrayUnion(notes),

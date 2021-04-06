@@ -59,6 +59,13 @@ export default function Schedule({ currentUser }) {
       .catch((err) => console.log(err));
   };
 
+  const deleteItem = (note) => {
+    console.log("note:", note);
+    eventsCollection.doc(id).update({
+      ["notes." + note]: firebase.firestore.FieldValue.delete(),
+    });
+  };
+
   useEffect(() => {
     showEvents();
   }, [selectedDay, notes]);
@@ -80,7 +87,7 @@ export default function Schedule({ currentUser }) {
       >
         <Heading
           onClick={() =>
-            console.log("currentDateEvents:", currentDateEvents[0].notes)
+            console.log("currentDateEvents:", currentDateEvents[0])
           }
           bgColor="whiteAlpha.200"
         >{`${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`}</Heading>
@@ -117,7 +124,7 @@ export default function Schedule({ currentUser }) {
                     size="xs"
                     icon={<DeleteIcon />}
                     px="1"
-                    onClick={() => console.log("item:", item)}
+                    onClick={() => deleteItem(item)}
                   />
                   <EditEvent
                     isOpen={isOpen}
