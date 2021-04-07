@@ -17,7 +17,11 @@ import { HamburgerIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import React from "react";
 import Time from "../time/Time";
 
-export default function Navbar({ logOut }) {
+export default function Navbar({
+  logOut,
+  setShowDailySchedule,
+  setShowWeeklySchedule,
+}) {
   return (
     <Box
       w="100%"
@@ -39,10 +43,22 @@ export default function Navbar({ logOut }) {
             <HamburgerIcon />
           </MenuButton>
           <MenuList>
-            <MenuItem>Download</MenuItem>
-            <MenuItem>Create a Copy</MenuItem>
-            <MenuItem>Mark as Draft</MenuItem>
-            <MenuItem>Delete</MenuItem>
+            <MenuItem
+              onClick={() => {
+                setShowDailySchedule(true);
+                setShowWeeklySchedule(false);
+              }}
+            >
+              Daily Schedule
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setShowDailySchedule(false);
+                setShowWeeklySchedule(true);
+              }}
+            >
+              WeeklySchedule
+            </MenuItem>
             <MenuItem onClick={logOut}>Logout</MenuItem>
           </MenuList>
         </Menu>
