@@ -25,6 +25,7 @@ function App() {
       .set({
         uid: user.uid,
         email: user.email,
+        name,
       })
       .catch((err) => console.error(err));
   };
@@ -38,9 +39,6 @@ function App() {
       .then((result) => {
         const user = firebase.auth().currentUser;
         createNewUserDocument(user);
-        return user.updateProfile({
-          displayName: name,
-        });
       })
       .then(() => {
         resetInput();

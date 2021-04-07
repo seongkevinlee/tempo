@@ -1,16 +1,61 @@
-import React, { useState } from "react";
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { Calendar as Cal } from "react-modern-calendar-datepicker";
-import { Box } from "@chakra-ui/react";
+import React from "react";
+import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
+import { Calendar as Cal } from "@hassanmojab/react-modern-calendar-datepicker";
+import { Box, Button, Text, useDisclosure } from "@chakra-ui/react";
 
-export default function Calendar() {
-  const [selectedDay, setSelectedDay] = useState(null);
+import moment from "moment";
+
+import "./calendar.css";
+import NewEventForm from "../events/NewEventForm";
+import NewEventNotes from "../events/NewEventNotes";
+
+export default function Calendar({
+  currentUser,
+  selectedDay,
+  setSelectedDay,
+  notes,
+  setNotes,
+}) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <Box w="100%" display="flex" justifyContent="center">
+    <Box
+      w="100%"
+      display="flex"
+      justifyContent="center"
+      flexDirection="column"
+      alignItems="center"
+    >
       <Cal
         value={selectedDay}
         onChange={setSelectedDay}
         shouldHighlightWeekends
+        colorPrimary="#9c88ff" // added this
+        calendarClassName="custom-calendar" // and this
+        calendarTodayClassName="custom-today-day" // also this
+      />
+      <Button onClick={onOpen} mt="4">
+        Add Entry
+      </Button>
+      {/* <Button onClick={() => console.log(selectedDay)} mt="4">
+        Add Event
+      </Button> */}
+      {/* <Text>{startTime}</Text> */}
+      {/* <Text>{selectedDay}</Text> */}
+
+      {/* <NewEventForm
+        isOpen={isOpen}
+        onClose={onClose}
+        selectedDay={selectedDay}
+        currentUser={currentUser}
+      /> */}
+      <NewEventNotes
+        isOpen={isOpen}
+        onClose={onClose}
+        selectedDay={selectedDay}
+        currentUser={currentUser}
+        notes={notes}
+        setNotes={setNotes}
       />
     </Box>
   );
