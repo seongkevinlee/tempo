@@ -26,6 +26,9 @@ export default function Calendar({
       flexDirection="column"
       alignItems="center"
     >
+      <Button colorScheme="teal" onClick={onOpen} my="2">
+        Add Entry
+      </Button>
       <Cal
         value={selectedDay}
         onChange={setSelectedDay}
@@ -34,21 +37,6 @@ export default function Calendar({
         calendarClassName="custom-calendar" // and this
         calendarTodayClassName="custom-today-day" // also this
       />
-      <Button onClick={onOpen} mt="4">
-        Add Entry
-      </Button>
-      {/* <Button onClick={() => console.log(selectedDay)} mt="4">
-        Add Event
-      </Button> */}
-      {/* <Text>{startTime}</Text> */}
-      {/* <Text>{selectedDay}</Text> */}
-
-      {/* <NewEventForm
-        isOpen={isOpen}
-        onClose={onClose}
-        selectedDay={selectedDay}
-        currentUser={currentUser}
-      /> */}
       <NewEventNotes
         isOpen={isOpen}
         onClose={onClose}

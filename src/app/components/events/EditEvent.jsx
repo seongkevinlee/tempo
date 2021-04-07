@@ -29,6 +29,7 @@ export default function EditEvent({
   currentUser,
   setNotes,
   showEvents,
+  eventId,
 }) {
   const [noteToEdit, setNoteToEdit] = useState(notes);
 
@@ -40,14 +41,12 @@ export default function EditEvent({
     firebase
       .firestore()
       .collection("events")
-      .doc(
-        `${currentUser.uid}.${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`
-      )
+      .doc(`${eventId}`)
       .set(
         {
           uid: currentUser.uid,
-          date: `${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`,
-          notes: firebase.firestore.FieldValue.arrayUnion(notes),
+          date: selectedDay,
+          notes: firebase.firestore.FieldValue.arrayUnion(noteToEdit),
         },
         { merge: true }
       )
@@ -66,11 +65,13 @@ export default function EditEvent({
           <ModalHeader></ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text mt="4">Date:</Text>
-            <Input
-              readOnly
-              value={`${selectedDay?.month}-${selectedDay?.day}-${selectedDay?.year}`}
-            />
+            <Text
+              onClick={() => console.log("selectedDay:", selectedDay)}
+              mt="4"
+            >
+              Date:
+            </Text>
+            <Input readOnly value={selectedDay} />
 
             <Box>
               <Text mt="4" mb="8px">

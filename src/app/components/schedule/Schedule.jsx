@@ -82,16 +82,20 @@ export default function Schedule({ currentUser }) {
         mt="5"
         mx="5"
         p="5%"
-        w="90%"
+        w="100%"
         h="300px"
         bgColor="gray.200"
         display="flex"
         justifyContent="flex-start"
         flexDirection="column"
         alignItems="center"
+        alignSelf="center"
         borderRadius="7px"
+        overflow="scroll"
+        overflowX="hidden"
       >
         <Heading
+          size="lg"
           onClick={() =>
             console.log("currentDateEvents:", currentDateEvents[0])
           }
@@ -101,57 +105,62 @@ export default function Schedule({ currentUser }) {
           display="flex"
           alignItems="flex-start"
           justifyContent="flex-start"
+          flexDirection="column"
           w="100%"
+          h="100%"
           px="5"
           pt="3"
+          // backgroundColor="red.200"
         >
-          <UnorderedList w="100%">
-            {currentDateEvents &&
-              currentDateEvents[0]?.notes?.map((item, index) => (
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="space-between"
-                  w="100%"
-                  // backgroundColor="white"
-                >
-                  <ListItem w="100%" mr="5" key={index}>
-                    {item}
-                  </ListItem>
-                  <IconButton
-                    backgroundColor="gray.200"
-                    size="xs"
-                    icon={<EditIcon />}
-                    px="1"
-                    onClick={onOpen}
-                  />
-                  <IconButton
-                    backgroundColor="gray.200"
-                    size="xs"
-                    icon={<DeleteIcon />}
-                    px="1"
-                    onClick={() =>
-                      deleteItem(
-                        item,
-                        currentDateEvents[0].eventId,
-                        currentDateEvents[0].notes.indexOf(item)
-                      )
-                    }
-                  />
-                  <EditEvent
-                    isOpen={isOpen}
-                    onClose={onClose}
-                    notes={item}
-                    selectedDay={item.date}
-                    currentUser={currentUser}
-                    showEvents={showEvents}
-                  />
-                </Box>
-              ))}
-          </UnorderedList>
+          {/* <UnorderedList> */}
+          {currentDateEvents &&
+            currentDateEvents[0]?.notes?.map((item, index) => (
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                w="100%"
+                // backgroundColor="white"
+                key={index}
+              >
+                <Text w="100%" mr="5">
+                  - {item}
+                </Text>
+                <IconButton
+                  backgroundColor="gray.200"
+                  size="xs"
+                  icon={<EditIcon />}
+                  px="1"
+                  onClick={onOpen}
+                />
+                <IconButton
+                  backgroundColor="gray.200"
+                  size="xs"
+                  icon={<DeleteIcon />}
+                  px="1"
+                  onClick={() =>
+                    deleteItem(
+                      item,
+                      currentDateEvents[0].eventId,
+                      currentDateEvents[0].notes.indexOf(item)
+                    )
+                  }
+                />
+                <EditEvent
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  notes={item}
+                  selectedDay={currentDateEvents[0].date}
+                  currentUser={currentUser}
+                  showEvents={showEvents}
+                  eventId={currentDateEvents[0].eventId}
+                />
+              </Box>
+            ))}
+          {/* </UnorderedList> */}
         </Box>
       </Box>
-      <Box width="100%" display="flex" justifyContent="center" marginTop="20px">
+      <Box width="100%" display="flex" justifyContent="center">
         <Calendar
           currentUser={currentUser}
           selectedDay={selectedDay}
