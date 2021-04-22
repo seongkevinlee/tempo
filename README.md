@@ -1,6 +1,6 @@
 # Tempo
 
-A simple calendar, todo list, note taking web application.
+A simple calendar, todo list, note taking full stack web application.
 
 
 ## Technologies Used
@@ -14,11 +14,13 @@ A simple calendar, todo list, note taking web application.
 * Chakra UI
 
 ## Features
-* User can login
 * User can sign up
+* User can login
 * User can view schedule
 * User can add new notes on selected date
 * User can delete notes on selected date
+* User can edit notes on selected date
+* User can navigate to weekly schedule view
 
 ## Development
 ### System Requirements
