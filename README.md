@@ -7,11 +7,12 @@ A simple calendar, todo list, note taking full stack web application.
 * JavaScript (ES5, ES6)
 * HTML5
 * CSS3
+* Chakra UI
 * React
-* Bootstrap 4
 * Node.js
 * Firebase
-* Chakra UI
+* MomentJs
+
 
 ## Features
 * User can sign up
@@ -40,5 +41,5 @@ npm install
 ```
 3. Start the project. Once started you can view the application by opening http://localhost:3000 in your browser.
 ```
-npm run dev
+npm start
 ```
