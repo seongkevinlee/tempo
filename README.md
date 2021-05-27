@@ -24,10 +24,11 @@ A simple calendar, todo list, note taking full stack web application.
 * User can navigate to weekly schedule view
 
 ## Development
+
+
 ### System Requirements
 * Node.js 10 or higher
 * NPM 6 or higher
-* Firebase
 
 ### Getting Started
 1. Clone the respository
