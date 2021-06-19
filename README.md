@@ -22,7 +22,8 @@ A simple calendar, todo list, note taking full stack web application.
 * User can delete notes on selected date
 * User can edit notes on selected date
 * User can navigate to weekly schedule view
-* User can view weekly schedule
+* User can view weekly schedule.
+* Hello
 
 ## Development
 
